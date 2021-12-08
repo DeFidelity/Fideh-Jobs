@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block nav-item %}{% endblock nav-item %}
+{% block content %}
+
+<div class="bg-grey-lighter min-h-screen flex flex-col">
+    <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+        <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+        <p class="m-4 text-xl text-center uppercase text-light">Welcome <span class="">Back</span></p>
+            <h1 class="mb-8 text-3xl text-center">Log In To Your Account</h1>
+            <div hx-boost="true">
+                <form method="POST" action="{% url 'core:login' %}">
+                    {% csrf_token %}
+                    <input 
+                        type="text"
+                        class="block border border-grey-light w-full p-3 rounded mb-4"
+                        name="username"
+                        placeholder="Full Name" />
+                        {% for error in forms.username.errors %}
+                            <p class="text-sm text-red-500 text-start">*{{error}}</p>
+                        {% endfor %}
+                    <input 
+                        type="text"
+                        class="block border border-grey-light w-full p-3 rounded mb-4"
+                        name="email"
+                        placeholder="Email" />
+                        {% for error in forms.email.errors %}
+                            <p class="text-sm text-red-500 text-start">*{{error}}</p>
+                        {% endfor %}
+                    <input 
+                        type="password"
+                        class="block border border-grey-light w-full p-3 rounded mb-4"
+                        name="password"
+                        placeholder="Password" />
+                        {% for error in forms.password.errors %}
+                            <p class="text-sm text-red-500 text-start">*{{error}}</p>
+                        {% endfor %}
+                    <button
+                        type="submit"
+                        class="w-full text-center py-3 rounded bg-purple-500 text-white hover:bg-purple-900 focus:outline-none my-1"
+                    >Login</button>
+                </form>
+            </div>
+            {% if form.errors %}
+                <p class="text-sm text-red-500 text-center">Your username and password didn't match. Please try again.</p>
+
+            {% endif %}
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p>{{error}}</p>
+                {% endfor %}
+            {% endif %}
+            
+        </div>
+
+        <div class="text-grey-dark mt-6">
+            Do not have an account? 
+            <a class="no-underline border-b border-blue text-blue" href="{% url 'core:signup' %}">
+                Sign up
+            </a>.
+        </div>
+    </div>
+</div>   
+{% endblock content %}

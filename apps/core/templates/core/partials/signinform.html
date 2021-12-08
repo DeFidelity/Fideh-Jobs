@@ -1,0 +1,31 @@
+<form hx-post="{% url 'core:login' %}">
+    {% csrf_token %}
+    <input 
+        type="text"
+        class="block border border-grey-light w-full p-3 rounded mb-4"
+        name="username"
+        placeholder="Full Name" />
+        {% for error in forms.username.errors %}
+            <p class="text-sm text-red-500 text-start">*{{error}}</p>
+        {% endfor %}
+    <input 
+        type="text"
+        class="block border border-grey-light w-full p-3 rounded mb-4"
+        name="email"
+        placeholder="Email" />
+        {% for error in forms.email.errors %}
+            <p class="text-sm text-red-500 text-start">*{{error}}</p>
+        {% endfor %}
+    <input 
+        type="password"
+        class="block border border-grey-light w-full p-3 rounded mb-4"
+        name="password"
+        placeholder="Password" />
+        {% for error in forms.password.errors %}
+            <p class="text-sm text-red-500 text-start">*{{error}}</p>
+        {% endfor %}
+    <button
+        type="submit"
+        class="w-full text-center py-3 rounded bg-purple-500 text-white hover:bg-purple-900 focus:outline-none my-1"
+    >Login</button>
+</form>

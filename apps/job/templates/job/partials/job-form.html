@@ -1,0 +1,40 @@
+<form hx-post="{% url 'job:create-job'%}" hx-swap="outerHTML" class="space-y-4 p-8 text-gray-700">
+        <div class="mb-6">
+            <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Job Title</label>
+            <input type="text" name="title" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4">
+        </div>
+        <div class="mb-6">
+            <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Job Description</label>
+            <textarea name="description" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4" rows="3"></textarea>
+        </div>
+        <div class="mb-6">
+            <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Payment Range</label>
+            <input type="text" name="payment_range" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4">
+        </div>
+        
+        <div class="grid md:grid-cols-2 md:gap-2"> 
+             <select name="remote_option" class="block border border-grey-light w-full p-3 rounded mb-8" placeholder="Regular input">
+                <option value="onsite" selected>On-site</option>
+                <option value="remote">Remote</option>
+            </select>
+            <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Duration</label>
+            <input type="text" name="duration" placeholder="(in months or year)" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4">
+        </div>
+        <div class="mb-6">
+            <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Job Detail</label>
+            <textarea name="detail" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4" rows="7"></textarea>
+        </div>
+        <div class="w-full flex-auto content-center bg-orange-500 rounded-lg m-2">
+            <button type="submit" class="w-full h-12 px-6 text-white transition-colors duration-150 bg-purple-700 rounded-lg focus:shadow-outline hover:bg-purple-800">
+                Create New Job
+            </button>
+        </div>
+
+        {% if form.messages.error%}
+        <p class="text-sm text-red-600 text-center">*{{messages.error}}</p>
+        {% endif %}
+        {% if form.messages.success%}
+        <p class="text-sm text-green-600 text-center">*{{messages.error}}</p>
+        {% endif %}
+        {% csrf_token %}
+    </form>

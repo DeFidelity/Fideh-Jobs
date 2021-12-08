@@ -1,0 +1,72 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <title>Fideh Jobs</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		{% tailwind_css %}
+        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+       <script> document.body.addEventListener('configRequest.htmx', (event) => {
+    event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+})
+</script>
+	</head>
+    <div class="container">
+    <body class="bg-gray-50 font-serif leading-normal tracking-normal">
+        <div class="flex justify-between p-5 m-10 rounded-xl bg-gray-100 w-full">
+            <div class="">
+                <h1 hx-boost="true" class="text-2xl font-bold p-3 rounded-xl text-blue-400 font-large hover:bg-blue-100 hover:text-purple-700">
+                    <a href="{% url 'core:landing' %}">FidehtJobs</a>
+                </h1>
+            </div>
+            <div class="hidden md:block">
+                <ul class="flex justify-center items-center">
+                {% block  nav-item %}
+                {% if user.is_authenticated %}
+                    <li class="mx-3 text-bold uppercase text-purple-500 hover:text-white rounded-full hover:bg-purple-500 p-4 bg-white">Home</li>
+                    <li hx-boost="true" class="mx-3 text-bold uppercase text-purple-500 hover:text-white rounded-full hover:bg-purple-500 p-4 bg-white">
+                        <a href="{% url 'users:dashboard' %}">Dashboard</a>
+                    </li>
+                    <li hx-boost="true" class="mx-3 text-bold uppercase text-purple-500 hover:text-white rounded-full hover:bg-purple-500 p-4 bg-white">
+                        <a href="{% url 'notification:notification' %}">
+                        <button class="rounded-full text-muted relative hover:bg-lightHover flex items-center justify-center p-3">
+                            <svg class="w-6 h-6 hover:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"></path></svg>
+                            <div class="rounded-full h-5 w-5 bg-red-600 text-white flex text-center justify-center absolute mb-5 ml-5 ">{{unread_notifications.count}}</div>
+                        </button>
+                        </a>
+                    </li>
+                    <li class="mx-3 text-bold uppercase text-purple-500 hover:text-white rounded-full hover:bg-purple-500 p-4 bg-white">contact</li>
+
+                
+                    <li class="mx-3 text-sm uppercase hover:text-purple-500 text-white rounded-xl bg-purple-500 p-4 hover:bg-white">
+                        <a href="{% url 'core:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="mx-3 text-sm uppercase hover:text-purple-500 text-white rounded-xl bg-purple-500 p-4 hover:bg-white">
+                        <a href="{% url 'core:login' %}">Login</a>
+                    </li>
+                    <li class="mx-3 text-sm uppercase hover:text-purple-500 text-white rounded-xl bg-purple-500 p-4 hover:bg-white">
+                        <a href="{% url 'core:signup' %}">SignUp</a>
+                    </li>
+                {% endif %}
+                {% endblock nav-item  %}
+                
+                </ul>
+                
+            </div>
+        </div>
+    {% block content %}
+    
+    {% endblock content %}
+
+
+    <script type="text/javascript" src="{% static 'js/htmx.js' %}"></script>
+	</body>
+    </div>
+    
+</html>
+
+

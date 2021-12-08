@@ -1,0 +1,30 @@
+<form method="POST" action="{% url 'job:job-apply' job.pk%}" class="space-y-4 p-8 text-gray-700">
+        {% csrf_token %}
+        <div class="mb-6">
+            <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Write former experience:</label>
+            <input type="text" name="experience" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4">
+        </div>
+        <div class="mb-6">
+            <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Name your bid payment:</label>
+            <input type="text" name="payment" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4">
+        </div>
+        <div class="mb-6">
+            <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Duration or Delivery time:</label>
+            <input type="text" name="delivery" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4">
+        </div>
+        <div class="mb-6">
+            <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Job Proposal:</label>
+            <textarea name="proposal" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4" rows="3"></textarea>
+        </div>
+        <div class="w-full flex-auto content-center bg-orange-500 rounded-lg m-2">
+            <button class="w-full h-12 px-6 text-white transition-colors duration-150 bg-purple-700 rounded-lg focus:shadow-outline hover:bg-purple-800">
+                Apply for Job
+            </button>
+        </div>
+        {% if form.messages.error%}
+        <p class="text-sm text-red-600 text-center">*{{messages.error}}</p>
+        {% endif %}
+        {% if form.messages.success%}
+        <p class="text-sm text-green-600 text-center">*{{messages.error}}</p>
+        {% endif %}
+</form>

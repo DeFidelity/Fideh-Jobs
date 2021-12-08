@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="bg-white rounded-lg shadow-2xl p-4 m-6">
+    {% for job in jobs %}
+        <div class="bg-gray-100 rounded-t-lg font-bold m-6 text-2xl shadow-2xl py-6 px-8">
+            <h2 class="text-lg font-bold text-purple-600 mt-4 p-3">
+                Position:
+                <span class="text-lg font-semibold text-gray-700 mt-4 p-3">{{ job.title }}</span>
+            </h2>
+            <h2 class="text-lg font-bold text-purple-600 mt-4 p-3">
+            description: <br>
+                <p class="text-normal p-1 text-gray-700  font-light ">{{job.description }}</p>
+            </h2>
+            <footer class="rounded-b-lg bg-gray-100 text-lg text-gray-500 px-8 py-3 flex justify-between">
+            <h3 hx-boost="true" class="text-xl text-left p-1  ">Job by: 
+                <a href="{% url 'users:profile' job.created_by%}" class="font-semiboald cursor-pointer text-gray-700">{% if job.created_by.profile.username %}{{job.created_by.profile.username}} {% else %}{{job.created_by}}{% endif %}</a>
+            
+            </h3>
+                <p class="m-3 hidden md:block p-1">{{job.created_on|timesince}}</p>
+            </footer>
+            <div hx-boost class="text-center">
+                <a class="mt-4 p-3 bg-purple-500 text-white hover:bg-purple-800 rounded-lg shadow-xl"href="{% url 'job:job-detail' job.pk %}">View Job Detail</a>
+            </div>
+        </div>
+    {% empty %}
+        <h2 class="text-purple-500 uppercase text-2xl text-center m-20">There is no job for now, check back later</h2>
+    {% endfor %}
+</div>
+{% endblock content %}

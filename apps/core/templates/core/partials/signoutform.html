@@ -1,0 +1,6 @@
+<form class="w-full justify-self-center" hx-post="{% url 'core:logout' %}" hx-swap="outerHTML">
+    {% csrf_token %}
+    <button class="justify-self-center" type="submit">
+        <h1 class="text-xl justify-self-center bg-purple-500 text-white p-4 hover:bg-purple-600 rounded pointer">Log Me Out</h1>
+    </button>
+</form>
