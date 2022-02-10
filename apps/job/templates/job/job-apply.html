@@ -5,13 +5,13 @@
     <h5 class="text-2xl font-bold leading-normal mt-0 mb-2 text-purple-800">
         Apply for: {{job.title}}
     </h5>
-    <h5 class="text-xl font-bold leading-normal mt-0 mb-2 text-purple-800">
-        <h3 hx-boost="true" class="text-xl text-left p-1  ">Job by: 
-            <a href="{% url 'users:profile' job.created_by%}" class="font-semiboald cursor-pointer text-gray-700">{% if job.created_by.profile.username %}{{job.created_by.profile.username}} {% else %}{{job.created_by}}{% endif %}</a>
-            
+    <div class="text-xl font-bold leading-normal mt-0 mb-2 text-purple-800">
+        <h3 hx-boost="true" class="text-left p-1  ">Job by: 
+            <a href="{% url 'users:profile' job.created_by%}" class="font-semibold cursor-pointer text-gray-700">{% if job.created_by.profile.username %}{{job.created_by.profile.username}} {% else %}{{job.created_by}}{% endif %}</a>
         </h3>
-        <span class="">{{job.created_on|timesince}}</span>
-    </h5>
+        <span class="text-sm font-thin">{{job.created_on|timesince}} ago.</span>
+    </div>
+    <hr class="mb-2" />
     <div hx-boost="true" class=""
     {% include 'job/partials/apply-form.html' %}
     </div>

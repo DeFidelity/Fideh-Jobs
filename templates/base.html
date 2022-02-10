@@ -7,6 +7,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://cdn.tailwindcss.com"></script>
 		{% tailwind_css %}
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
        <script> document.body.addEventListener('configRequest.htmx', (event) => {
@@ -14,7 +15,7 @@
 })
 </script>
 	</head>
-    <div class="container">
+    <div class="container ">
     <body class="bg-gray-50 font-serif leading-normal tracking-normal">
         <div class="flex justify-between p-5 m-10 rounded-xl bg-gray-100 w-full">
             <div class="">
@@ -58,10 +59,11 @@
                 
             </div>
         </div>
+        <div class="justify-center">
     {% block content %}
     
     {% endblock content %}
-
+        </div>
 
     <script type="text/javascript" src="{% static 'js/htmx.js' %}"></script>
 	</body>

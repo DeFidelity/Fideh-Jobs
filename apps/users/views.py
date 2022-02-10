@@ -73,7 +73,7 @@ class ApplicantJobDetail(View,LoginRequiredMixin):
         
 class ProfileView(View, LoginRequiredMixin):
     def get(self,request,email,*args,**kwargs):
-        profile = UserProfile.objects.get(user__email=email)
+        profile = get_object_or_404(UserProfile,user__email=email)
         
         context ={
             'profile': profile,
