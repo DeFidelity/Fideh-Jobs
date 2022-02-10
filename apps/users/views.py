@@ -100,4 +100,4 @@ class ProfileEditView(View):
                 
                 return redirect('profile',request.user.email)
             return render(request,'user/profile.html',{'profile':profile})
-            
+        

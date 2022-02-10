@@ -12,7 +12,6 @@ def searchquery(request):
     
     jobs = Job.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)|Q(detail__icontains=query))
     
-    S
     if remote:
         jobs = jobs.filter(remote=remote)
         

@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View 
 from django.urls import reverse_lazy
@@ -154,3 +155,17 @@ class ApplicationDelete(View,LoginRequiredMixin):
         application = get_object_or_404(Application,pk=pk,created_by=request.user)
         application.delete()
         return redirect('users:dashboard')
+
+def search_page(request):
+    return render(request,'job/search.html')
+
+class Search(View):
+    def get(self,request):
+        jobs = Job.objects.all()
+        job_listing = []
+        for job in jobs:
+            job_listing.append({'title':job.title,'pk':job.pk,'remote':job.remote})
+        return JsonResponse(job_listing,safe=False)
+    def post(self,request,pk,*args,**kwargs):
+        return render(request,'job/search.html')
+        pass
