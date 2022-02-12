@@ -1,4 +1,4 @@
-<form method="POST" action="{% url 'job:job-apply' job.pk%}" class="space-y-4 p-8 text-gray-700">
+<form hx-post="{% url 'job:job-apply' job.pk%}" hx-swap="outerHTML" hx-target="#application" class="space-y-4 p-8 text-gray-700">
         {% csrf_token %}
         <div class="mb-6">
             <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Write former experience:</label>

@@ -15,13 +15,18 @@
 })
 </script>
 	</head>
-    <div class="container ">
-    <body class="bg-gray-50 font-serif leading-normal tracking-normal">
+    <div class="container overflow-x-hidden">
+    <body class="bg-gray-50 font-serif leading-normal tracking-normal" id="body">
         <div class="flex justify-between p-5 m-10 rounded-xl bg-gray-100 w-full">
             <div class="">
                 <h1 hx-boost="true" class="text-2xl font-bold p-3 rounded-xl text-blue-400 font-large hover:bg-blue-100 hover:text-purple-700">
                     <a href="{% url 'core:landing' %}">FidehtJobs</a>
                 </h1>
+            </div>
+            <div class="block md:hidden">
+                <li hx-boost="true" class="mx-3 text-bold uppercase text-purple-500 hover:text-white rounded-full hover:bg-purple-500 p-4 bg-white">
+                    <a href="{% url 'users:dashboard' %}">Dashboard</a>
+                </li>
             </div>
             <div class="hidden md:block">
                 <ul class="flex justify-center items-center">
@@ -59,11 +64,15 @@
                 
             </div>
         </div>
-        <div class="justify-center">
-    {% block content %}
-    
-    {% endblock content %}
+        <div class="">
+        {% block content %}
+        <div id="head"></div>
+        
+        {% endblock content %}
+        
         </div>
+        {% block footer %}{% include 'footer.html' %}{% endblock footer %}   
+        
 
     <script type="text/javascript" src="{% static 'js/htmx.js' %}"></script>
 	</body>

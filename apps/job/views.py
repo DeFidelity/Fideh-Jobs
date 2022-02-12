@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View 
 from django.urls import reverse_lazy
@@ -66,14 +66,9 @@ class JobCreate(View, LoginRequiredMixin, UserPassesTestMixin):
             context= {
                 'form':form
             }
-            messages.success(request,'Job created successfully')
-            return render(request,'job/partials/job-form.html',context)
+            return HttpResponse('<p class="text-sm text-green-600 text-center">Succesfully added another job to your listing.</p>')
         else:
-            context= {
-                'form':form
-            }
-            messages.error(request,'Invalid Input, recheck your Fields')
-            return render(request,'job/create-job.html', context)
+            return HttpResponse('<p class="text-sm text-red-600 text-center">*There is an error</p>')
         
 class JobEdit(View,LoginRequiredMixin,UserPassesTestMixin):
     def get(self,request,pk):
@@ -119,6 +114,8 @@ class JobApplication(View,LoginRequiredMixin,UserPassesTestMixin):
         job = Job.objects.get(pk=pk)
         form = ApplicationForm(request.POST)
         
+        if request.user.profile.is_employer:
+            return HttpResponse('<p class="text-sm text-red-600 text-center">An employer can not apply for jobs, sorry for any inconvenience caused.</p>')
         if form.is_valid():
             application = form.save(commit=False)
             application.job = job
@@ -127,19 +124,13 @@ class JobApplication(View,LoginRequiredMixin,UserPassesTestMixin):
             
             create_notification(request, job.created_by, 'application', application.pk)
             
-            context= {
-                'job':job,
-                'form':form
-            }
-            messages.success(request,'Application Submitted')
-            return redirect('users:dashboard')
+            return HttpResponse('<p class="text-sm text-green-600 text-center">*Application succesfully sent, creator would recieve notification.</p>')
             
         else:
             context= {
                 'job':job,
                 'form':form
             }
-            messages.error(request,'Error in form, cross check it.')
             return render(request,'job/job-apply.html',context)
     def test_func(self,request):
         if request.user.profile.is_employer:
@@ -161,11 +152,10 @@ def search_page(request):
 
 class Search(View):
     def get(self,request):
-        jobs = Job.objects.all()
+        query = request.GET.get('query','')
+        jobs = Job.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)|Q(detail__icontains=query))
         job_listing = []
         for job in jobs:
             job_listing.append({'title':job.title,'pk':job.pk,'remote':job.remote})
         return JsonResponse(job_listing,safe=False)
-    def post(self,request,pk,*args,**kwargs):
-        return render(request,'job/search.html')
-        pass
+    

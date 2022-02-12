@@ -1,4 +1,4 @@
-<form hx-post="{% url 'job:create-job'%}" hx-swap="outerHTML" class="space-y-4 p-8 text-gray-700">
+<form hx-post="{% url 'job:create-job'%}" hx-swap="outerHTML" hx-target="#createjob" class="space-y-4 p-8 text-gray-700">
         <div class="mb-6">
             <label for="large-input" class="text-sm font-medium text-gray-900 block mb-2">Job Title</label>
             <input type="text" name="title" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-md rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-4">
