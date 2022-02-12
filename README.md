@@ -25,6 +25,7 @@ This project has allot of features and the highlights are:
 - Messaging ( Communication between and employer and employee not user to user )
 - Job Creation
 - Job application
+- Notification ( for new messages and new application)
 - ....
 
 ## Installation and How to use
