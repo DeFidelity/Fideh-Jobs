@@ -3,7 +3,7 @@ from apps.users.models import CustomUser
 from django.contrib.auth import login, authenticate, logout
 from django.views import View
 from .forms import UserForm, LoginForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib import messages
 from apps.job.models import Job
 
@@ -14,7 +14,7 @@ class LandingView(View):
         return render(request,'core/landing.html',{'jobs': jobs})
 
 
-class SignUp(View):
+class SignUp(View,UserPassesTestMixin):
     def get(self,request):
         return render(request,'core/signup.html')
     
@@ -40,33 +40,37 @@ class SignUp(View):
         else:
             messages.error(request,'Please fill all the forms correctly')
             return redirect('signup')
-  
+    def test_func(self):
+        return not self.request.user.is_authenticated
     
-class LoginView(View):
+class LoginView(View, UserPassesTestMixin):
     def get(self, request):
         return render(request,'core/login.html')
     
     def post(self, request, *args, **kwargs):
-        print(0)
         form = LoginForm(request.POST)
         if form.is_valid():
             email = request.POST.get('email')
             password = request.POST.get('password')
             auth = authenticate(email=email,password=password)
-            print(1)
+            print(24)
             if auth is not None:
                 login(request, auth)
+                print(34)
                 return redirect('users:dashboard')
-                print(2)
+            
             else:
                 messages.error(request,'Username or password not correct')
-                return render(request,'core/login.html',{'form':form})
                 print(3)
+                return render(request,'core/login.html',{'form':form})
+                
         else:
             messages.error(request,'Username or password not correct')
             return render(request,'core/login.html',{'form':form}) 
             print(4)
         
+    def test_func(self):
+        return not self.request.user.is_authenticated
         
 class LogoutView(View):
     def get(self, request):

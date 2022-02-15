@@ -1,49 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-<div x-data="{jobs: [], remote: false, search:false}" x-init="jobs = await (await fetch('/job/fideht/jobs/search/')).json()">
+
   <div class="flex items-center justify-center ">
-    <form hx-get="{% url 'job:search' %}" hx-target="#searchResult">
+    <form hx-post="{% url 'job:search' %}" hx-target="#searchResult" hx-swap="outerHTML">
     <div class="flex border-2 border-gray-200 rounded">
         <input name="query" type="text" class="px-4 py-2 w-80" placeholder="Search...">
-        <button class="px-4 text-white bg-gray-600 border-l ">Search</button>
+        <button type="submit" class="px-4 text-white bg-gray-600 border-l ">Search</button>
         <div class="form-check mx-3">
           Remote
-          <input @click="remote=!remote" class="form-check-input self-center appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-purple-600 checked:border-purple-600 focus:outline-none transition duration-200 my-1 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer" type="checkbox" value="" id="flexCheckDefault3">
+          <input class="form-check-input self-center appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-purple-600 checked:border-purple-600 focus:outline-none transition duration-200 my-1 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer" type="checkbox" value="" id="flexCheckDefault3">
         </div>
       </form>
     </div>
   </div>
-  <div class="pb-1 text-center text-gray-700 bg-cover"> 
-    <div class="my-8">
-      <div class="max-w-xl px-4 mx-auto sm:px-6 lg:max-w-screen-xl lg:px-8">
-        <template class="lg:grid lg:grid-cols-1 gap-3 " x-for="job in jobs.filter(j => j.remote == remote)">
+  {% include 'job/partials/searchresult.html' %}
 
-          <div class="p-16 relative transition-all duration-150 border-2 border-gray-300 bg-white rounded-lg shadow-xl ease hover:shadow-2xl">
-            <h1 hx-boost="true" class="text-xl font-semibold  mt-4 p-3"> 
-                    <a href="{% url 'job:job-detail' job.pk %}">{{ job.title }}</a>
-                </h1>
-                <div class="">
-                    <p class="text-normal p-1 font-light text-center ">description: {{job.description|truncatewords:20 }}</p>
-                    <p class="text-sm font-thin mt-4 text-left">{{job.detail|truncatewords:10}}</p>
-                </div>
-                <footer class="rounded-b-lg bg-gray-100 text-sm text-gray-500 px-8 py-3 flex justify-between">
-                    <h3 hx-boost="true" class="text-xl text-left p-1  ">Job by: 
-                        <a href="{% url 'users:profile' job.created_by%}" class="font-semiboald cursor-pointer text-gray-700">{% if job.created_by.profile.username %}{{job.created_by.profile.username}} {% else %}{{job.created_by}}{% endif %}</a>
-                        
-                    </h3>
-                    <p class="m-3 p-1">{{job.created_on|timesince}}</p>
-                </footer>
-                <div hx-boost="true" class="text-center">
-                    <a class="absolute inset-x-0 bottom-0 h-16 mt-4 p-3 bg-purple-500 text-white hover:bg-purple-800 rounded-lg shadow-xl"href="{% url 'users:applicant-detail' job.pk %}">View Application</a>
-                </div>
-            </div>
-          <p class="block" x-text="`${job.title} - ${job.pk}-- is remote ${job.remote} `"></p>
-        </template>
-      </div>
-      </div>
-    </div>
-</div>
-<div id="searchResult" x-data="{jobs: [], remote: false}" x-init="jobs = await (await ('/job/fideht/jobs/search/')).json()">
-  <p class="block" x-text="`${job.title} - ${job.pk}-- is remote ${job.remote} `"></p>
-</div>
   {% endblock content %}

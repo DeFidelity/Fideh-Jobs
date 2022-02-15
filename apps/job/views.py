@@ -4,10 +4,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View 
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.core.paginator import Paginator
 from .models import Job, Application
 from .forms import JobCreateForm, ApplicationForm
-from django.contrib import messages
-from django.views.generic.edit import DeleteView
 from apps.notification.utilities import create_notification
 
 class JobDetail(View,LoginRequiredMixin):
@@ -20,7 +19,11 @@ class JobDetail(View,LoginRequiredMixin):
     
 class JobSearch(View,LoginRequiredMixin):
     def get(self, request):
-        return render(request,'job/search.html')
+        jobs = Job.objects.all().order_by('-created_on')
+        page = Paginator(jobs,5)
+        page_number = request.GET.get('page')
+        page_obj = page.get_page(page_number)
+        return render(request,'job/search.html',{'jobs':jobs,'page_obj':page_obj})
     
     def post(self,request):
         query = request.POST.get('query')
@@ -35,7 +38,7 @@ class JobSearch(View,LoginRequiredMixin):
             'jobs': matching_jobs,
             'remote': remote_jobs
         }
-        return render(request,'job/search.html',context)
+        return render(request,'job/partials/searchresult.html',context)
             
 
 class JobList(View, LoginRequiredMixin):
@@ -146,16 +149,3 @@ class ApplicationDelete(View,LoginRequiredMixin):
         application = get_object_or_404(Application,pk=pk,created_by=request.user)
         application.delete()
         return redirect('users:dashboard')
-
-def search_page(request):
-    return render(request,'job/search.html')
-
-class Search(View):
-    def get(self,request):
-        query = request.GET.get('query','')
-        jobs = Job.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)|Q(detail__icontains=query))
-        job_listing = []
-        for job in jobs:
-            job_listing.append({'title':job.title,'pk':job.pk,'remote':job.remote})
-        return JsonResponse(job_listing,safe=False)
-    
