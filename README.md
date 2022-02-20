@@ -1,6 +1,8 @@
 # Fideh-Jobs
 
  Collaboration joint and job board modeled after Upwork.
+ 
+ ### Screenshot of a user dashboard
  ![dashboard](https://user-images.githubusercontent.com/68183305/153730610-bb992833-0fa9-4683-abb5-37d7f2404aef.png)
 
 
@@ -9,6 +11,7 @@
 This project is a server side rendered web-app that is fully inspired by Upwork and I start thinking about it when one of my mentor told me to go on there and pick a job up, I like what the platform does and as someone that needs idea for his portfolio project I seize the opportunity.
 I went all out for this project and I learnt allot while building it, and I'm really glad I did.
 
+### screenshot of the landing page
 ![homepage](https://user-images.githubusercontent.com/68183305/153730628-98b6d9ce-e918-4ba9-be3a-ec5c9728700f.png)
 
 ## Language, Frameworks and Library
@@ -21,6 +24,8 @@ I went all out for this project and I learnt allot while building it, and I'm re
 - HTML
 
 ## Features
+
+### screenshot showing the chat section in the application detail section.
 ![chat](https://user-images.githubusercontent.com/68183305/153730637-e93697d1-0587-43d1-97ef-0b7ade10c89d.png)
 
 This project has allot of features and the highlights are:
