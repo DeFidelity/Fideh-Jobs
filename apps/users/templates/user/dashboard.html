@@ -5,9 +5,7 @@
     <!-- side nav -->
     <div class="w-1/5 border-r border-lighter text-xl text-gray-800 font-semibold flex flex-col space-4 px-2 lg:px-6 py-2">
         <div class=" p-2 space-y-2">
-            <img src="https://source.unsplash.com/100x100/?portrait" alt="" class="w-12 flex-none h-12 rounded-full bg-coolGray-500">
             <div class="flex justify-start">
-                <h2 class="text-lg font-semibold">{% if request.user.profile.username %}{{ request.user.profile.username}} {% else %} You {% endif %}</h2>
                 <span class="flex items-center space-x-1">
                     <a href="{% url 'users:profile' request.user.email%}" class="text-xs ml-1 hover:underline text-coolGray-600">View profile</a>
                 </span>
@@ -177,8 +175,10 @@
             </div>
         </div>
         {% endif %}
+        
     {% endblock body %}
-    </div>
     
+    </div>
   </div> 
+  {% block footer %}{% endblock footer %}
 {% endblock content %}
