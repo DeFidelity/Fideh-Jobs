@@ -24,12 +24,14 @@
                     <a href="{% url 'core:landing' %}">FidehtJobs</a>
                 </h1>
             </div>
+            {% if user.is_authenticated %}
             <div class="block md:hidden">
                 <li hx-boost="true" class="mx-3 text-bold uppercase text-purple-500 hover:text-white rounded-full hover:bg-purple-500 p-4 bg-white">
                     <a href="{% url 'users:dashboard' %}">Dashboard</a>
                 </li>
             </div>
-            <div class="hidden md:block">
+            {% endif %}
+            <div class="block md:block">
                 <ul class="flex justify-center items-center">
                 {% block  nav-item %}
                 {% if user.is_authenticated %}

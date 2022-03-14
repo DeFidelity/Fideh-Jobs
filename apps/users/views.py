@@ -16,6 +16,7 @@ class Dashboard(View,LoginRequiredMixin):
         applied_jobs = Job.objects.filter(application__created_by=user)
         
         context ={
+            'application': application,
             'your_jobs': your_jobs,
             'user':request.user.profile,
             'applied_jobs': applied_jobs
