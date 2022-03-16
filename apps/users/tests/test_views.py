@@ -14,6 +14,12 @@ class TestUsersViews(TestCase):
             email = 'admin@mail.com',
             password ='testpassword',
         )
+        self.just_user = CustomUser.objects.create_user( 
+            first_name = 'justuser',
+            email='mine@mail.com',
+            password ='testpassword'                                
+        )
+        
         self.employer_user.profile.is_employer = True
         
         self.jobseeker_user = CustomUser.objects.create_user(
@@ -77,7 +83,56 @@ class TestUsersViews(TestCase):
     def test_applicant_job_detail_with_GET_method(self):
         app_url = reverse('users:applicant-detail',args=[self.job.pk])
         
-        self.client.login()
+        self.client.login(email=self.jobseeker_user.email,password ='testpassword')
+        
+        response = self.client.get(app_url)
+        
+        self.assertEqual(response.status_code,200)
+        self.assertTemplateUsed('user/get-application-detail.html')
+        
+    def test_applicant_job_detail_with_non_job_craetor_or_applicant_person_with_GET_method(self):
+        app_url = reverse('users:applicant-detail',args=[self.job.pk])
+        
+        
+        self.client.login(email=self.just_user.email,password ='testpassword')
+        
+        response = self.client.get(app_url)
+        
+        self.assertEqual(response.status_code,404)
+        self.assertTemplateUsed('user/get-application-detail.html')
+        
+    def test_applicant_job_detail_with_POST_method(self):
+        
+        app_url = reverse('users:applicant-detail',args=[self.job.pk])
+        
+        self.client.login(email=self.jobseeker_user.email,password ='testpassword')
+        
+        response = self.client.get(app_url,data={
+            'message': "come on, you're hired. Congratulations."
+        })
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed('user/partials/message.html')
+        self.assertTrue(response.context['messages'])
+        
+    def test_profile_view_with_get_method(self):
+        profile_url = reverse('users:profile',args=[self.employer_user.email])
+        
+        self.client.login(email=self.employer_user,password ='testpassword')
+        response = self.client.get(profile_url)
+        
+        self.assertEqual(response.status_code,200)
+        self.assertTemplateUsed('user/profile.html')
+        self.assertTrue(response.context['profile'])
+        
+    def test_profile_edit_view(self):
+        profile_edit = reverse('users:profile-edit',args=[self.employer_user.email])
+        
+        self.client.login(email=self.employer_user,password ='testpassword')
+        response = self.client.get(profile_edit)
+        
+        self.assertEqual(response.status_code,200)
+        self.assertTemplateUsed('user/profile-edit.html.html')
+        self.assertTrue(response.context['profile'])
         
         
         
