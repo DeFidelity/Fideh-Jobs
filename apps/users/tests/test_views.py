@@ -134,6 +134,27 @@ class TestUsersViews(TestCase):
         self.assertTemplateUsed('user/profile-edit.html.html')
         self.assertTrue(response.context['profile'])
         
+    def test_profile_edit_with_POST_method(self):
+        profile_edit = reverse('users:profile-edit',args=[self.jobseeker_user.email])
+        
+        self.client.login(email=self.employer_user,password ='testpassword')
+        response = self.client.post(profile_edit,data={
+            'field':"Human resources",
+            'about':"I bring value to this organisation through recruitment of telented people",
+            'age':"32",
+            'qualification':"Master social work",
+            'country':"United States of America",
+            'contact':"2384892003",
+            'gender':"Female",
+            'experience':"5years of technical experience",
+            'education':"Havard University"
+        })
+        
+        self.assertEqual(response.status_code,302)
+        self.assertTemplateUsed('user/profile-edit.html.html')
+        self.assertTrue(response.context['profile'])
+        
+        
         
         
         
