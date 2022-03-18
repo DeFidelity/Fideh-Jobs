@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
-from django.urls import reverse
+from django.urls import resolve, reverse
 from apps.job.models import Application, Job
+from apps.job.views import JobCreate
 
 from apps.users.models import Conversation, CustomUser
 
@@ -14,6 +15,10 @@ class TestJobViews(TestCase):
             email = 'admin@mail.com',
             password ='testpassword',
         )
+        self.login = self.client.login(email=self.employer_user.email,password =self.employer_user.password)
+        
+        self.employer_user.profile.is_employer = True
+        
         
         self.just_user = CustomUser.objects.create_user( 
             first_name = 'justuser',
@@ -21,17 +26,16 @@ class TestJobViews(TestCase):
             password ='testpassword'                                
         )
         
-        self.employer_user.profile.is_employer = True
-        
         self.jobseeker_user = CustomUser.objects.create_user(
             first_name = 'jobseeker',
             email = 'jobseeker@mail.com',
             password ='testpassword',
         )
         
+        self.client.login(email=self.jobseeker_user.email,password =self.jobseeker_user.password)
+        
         self.employer_user.profile.is_employer = False
         
-        self.profile = self.employer_user.profile
         
         self.job = Job.objects.create(
             title = 'Software Engineer',
@@ -98,5 +102,65 @@ class TestJobViews(TestCase):
         self.assertTemplateUsed('job/partials/searchresult.html')
         self.assertTrue(response.context['jobs'].count,0)
         
+    def test_job_list_views_with_get_method(self):
+        job_list = reverse('job:job-list')
         
+        self.client.login(email=self.jobseeker_user.email,password ='testpassword')
+        
+        response = self.client.get(job_list)
+        
+        self.assertEqual(response.status_code,200)
+        self.assertTemplateUsed('job/job-list.html')
+        self.assertTrue(response.context['jobs'])
+        
+    def test_job_create_view_with_non_employer_user_and_get_method(self):
+        
+        job_create = reverse('job:create-job')
+        
+        self.client.login(email=self.jobseeker_user.email,password ='testpassword')
+        
+        response = self.client.get(job_create,data={
+            'request':self.client
+        })
+        
+        self.assertEqual(response.status_code,403)
+        
+    def test_job_create_view_with_employer_user_and_get_method(self):
+        
+        job_create = reverse('job:create-job')
+        
+        employer_user = CustomUser.objects.create_user(
+                first_name = 'admin',
+                email = 'employer@mail.com',
+                password ='testpassword',
+            )
+        employer_user.profile.is_employer = True
+       
+        self.client.login(email=employer_user.email,password='testpassword')
+        
+        
+        
+        response = self.client.get(job_create)
+        resolv = resolve(job_create)
+        
+        self.assertEqual(resolv.func.view_class,JobCreate)
+        self.assertTemplateUsed('job/create-job.html')
+        self.assertEqual(response.status_code,200)
+        
+        
+        
+    def test_job_create_view_with_employer_user_and_POST_method(self):
+        
+        login = self.client.login(email=self.employer_user.email,password='testpassword')
+        emp = self.employer_user.profile.is_employer = True
+        job_create = reverse('job:create-job')
+        response = self.client.post(job_create,data={
+            'title': 'SEO specailist',
+            'description': 'You will be required to optimize page ranking',
+            'created_by_id': self.employer_user.pk
+        })
+        print(emp)
+        print(response)
+        self.assertTrue(login)
+        self.assertEqual(response.status_code,200)
     

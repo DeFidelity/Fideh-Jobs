@@ -51,7 +51,7 @@ class JobList(View, LoginRequiredMixin):
         
         return render(request,'job/job-list.html',context)
     
-class JobCreate(View, LoginRequiredMixin, UserPassesTestMixin):
+class JobCreate(LoginRequiredMixin, UserPassesTestMixin, View, ):
     def get(self,request):
         return render(request,'job/create-job.html')
     
@@ -72,6 +72,10 @@ class JobCreate(View, LoginRequiredMixin, UserPassesTestMixin):
             return HttpResponse('<p class="text-sm text-green-600 text-center">Succesfully added another job to your listing.</p>')
         else:
             return HttpResponse('<p class="text-sm text-red-600 text-center">*There is an error</p>')
+        
+    def test_func(self):
+        return self.request.user.profile.is_employer == True
+        
         
 class JobEdit(View,LoginRequiredMixin,UserPassesTestMixin):
     def get(self,request,pk):
