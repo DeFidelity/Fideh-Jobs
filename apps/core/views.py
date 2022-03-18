@@ -3,7 +3,7 @@ from apps.users.models import CustomUser
 from django.contrib.auth import login, authenticate, logout
 from django.views import View
 from .forms import UserForm, LoginForm
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.contrib import messages
 from apps.job.models import Job
 
@@ -53,15 +53,15 @@ class LoginView(UserPassesTestMixin,View):
             email = request.POST.get('email')
             password = request.POST.get('password')
             auth = authenticate(email=email,password=password)
-            print(24)
+        
             if auth is not None:
                 login(request, auth)
-                print(34)
+             
                 return redirect('users:dashboard')
             
             else:
                 messages.error(request,'Username or password not correct')
-                print(3)
+        
                 return render(request,'core/login.html',{'form':form})
                 
         else:
@@ -72,10 +72,10 @@ class LoginView(UserPassesTestMixin,View):
     def test_func(self):
         return not self.request.user.is_authenticated
         
-class LogoutView(View):
+class LogoutView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request,'core/logout.html')
     
-    def post(self, request):
+    def post(self,request):
         logout(request)
         return render(request,'core/logout-success.html')
