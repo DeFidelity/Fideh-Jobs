@@ -51,7 +51,7 @@ class JobList(View, LoginRequiredMixin):
         
         return render(request,'job/job-list.html',context)
     
-class JobCreate(LoginRequiredMixin, UserPassesTestMixin, View, ):
+class JobCreate(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self,request):
         return render(request,'job/create-job.html')
     
@@ -77,13 +77,14 @@ class JobCreate(LoginRequiredMixin, UserPassesTestMixin, View, ):
         return self.request.user.profile.is_employer == True
         
         
-class JobEdit(View,LoginRequiredMixin,UserPassesTestMixin):
+class JobEdit(LoginRequiredMixin,View):
+    
     def get(self,request,pk):
-        job = Job.objects.get(pk=pk)
+        job = get_object_or_404(Job,pk=pk,created_by=request.user)
         return render(request,'job/edit-job.html',{'job':job})
     
     def post(self,request,pk,*args,**kwargs):
-        job = Job.objects.get(pk=pk)
+        job = get_object_or_404(Job,pk=pk,created_by=request.user)
         form = JobCreateForm(request.POST)
         remote = request.POST.get('remote_option')
         if form.is_valid():
@@ -94,22 +95,20 @@ class JobEdit(View,LoginRequiredMixin,UserPassesTestMixin):
             jobu.save()
             
             return redirect('job:job-detail',pk=job.pk)
-        
-class JobDelete(View,LoginRequiredMixin,UserPassesTestMixin):
+    
+    
+class JobDelete(LoginRequiredMixin,View):
     def get(self,request,pk,*args,**kwargs):
-        job = Job.objects.get(pk=pk)
+        job = get_object_or_404(Job,pk=pk,created_by=request.user)
         return render(request,'job/delete-job.html',{'job':job})
     def post(self,request,pk,*args,**kwargs):
-        job = Job.objects.get(pk=pk)
+        job = get_object_or_404(Job,pk=pk,created_by=request.user)
         job.delete()
         return redirect('users:dashboard')
     
+    
         
-    def test_func(self, request,pk):
-        job = Job.objects.get(pk=pk)
-        return request.user == job.created_by
-        
-class JobApplication(View,LoginRequiredMixin,UserPassesTestMixin):
+class JobApplication(LoginRequiredMixin,UserPassesTestMixin,View):
     def get(self, request,pk,*args, **kwargs):
         job = Job.objects.get(pk=pk)
         context= {
@@ -139,15 +138,15 @@ class JobApplication(View,LoginRequiredMixin,UserPassesTestMixin):
                 'form':form
             }
             return render(request,'job/job-apply.html',context)
-    def test_func(self,request):
-        if request.user.profile.is_employer:
+    def test_func(self):
+        if self.request.user.profile.is_employer:
             return False
         return True
     
 class ApplicationDelete(View,LoginRequiredMixin):
     def get(self,request,pk):
         application = get_object_or_404(Application,pk=pk,created_by=request.user)
-        return render(request,'job/application-delete.html',{'application', application})
+        return render(request,'job/application-delete.html',{'application': application})
     
     def post(self,request,pk,*args,**kwargs):
         application = get_object_or_404(Application,pk=pk,created_by=request.user)

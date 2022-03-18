@@ -14,7 +14,7 @@ class LandingView(View):
         return render(request,'core/landing.html',{'jobs': jobs})
 
 
-class SignUp(View,UserPassesTestMixin):
+class SignUp(UserPassesTestMixin,View):
     def get(self,request):
         return render(request,'core/signup.html')
     
@@ -36,14 +36,14 @@ class SignUp(View,UserPassesTestMixin):
                 user.profile.is_employer = True
             user.save()
             login(request, user)
-            return redirect('dashboard')
+            return redirect('users:dashboard')
         else:
             messages.error(request,'Please fill all the forms correctly')
             return redirect('signup')
     def test_func(self):
         return not self.request.user.is_authenticated
     
-class LoginView(View, UserPassesTestMixin):
+class LoginView(UserPassesTestMixin,View):
     def get(self, request):
         return render(request,'core/login.html')
     
