@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-    <title>Fideh Jobs</title>
+    <title>{% block title %}{% endblock title %} | Fideh Jobs</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -11,10 +11,9 @@
 		{% tailwind_css %}
         <script src="https://unpkg.com/htmx.org@1.6.1"></script>
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-       <script> document.body.addEventListener('configRequest.htmx', (event) => {
-    event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-})
-</script>
+        <script> document.body.addEventListener('configRequest.htmx', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';})
+        </script>
 	</head>
     <div class="container overflow-x-hidden">
     <body class="bg-gray-50 font-serif leading-normal tracking-normal" id="body">

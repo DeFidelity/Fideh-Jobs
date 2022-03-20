@@ -67,7 +67,6 @@ class LoginView(UserPassesTestMixin,View):
         else:
             messages.error(request,'Username or password not correct')
             return render(request,'core/login.html',{'form':form}) 
-            print(4)
         
     def test_func(self):
         return not self.request.user.is_authenticated
@@ -78,4 +77,4 @@ class LogoutView(LoginRequiredMixin, View):
     
     def post(self,request):
         logout(request)
-        return render(request,'core/logout-success.html')
+        return redirect('core:landing')

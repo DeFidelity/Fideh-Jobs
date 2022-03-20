@@ -169,7 +169,11 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 
-
-
+EMAIL_BACKEND = '‘django.core.mail.backends.smtp.EmailBackend’'
+EMAIL_HOST =' ‘smtp.gmail.com’'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '‘your_account@gmail.com’'
+EMAIL_HOST_PASSWORD =' 83734f55-1f1e-4468-b1d3-66383c2196c6'
 
 

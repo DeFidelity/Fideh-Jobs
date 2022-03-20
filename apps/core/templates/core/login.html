@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block head %}Login {% endblock head %}
 {% block nav-item %}{% endblock nav-item %}
 {% block content %}
 
@@ -41,12 +42,17 @@
                     <p>{{error}}</p>
                 {% endfor %}
             {% endif %}
-            
         </div>
 
-        <div class="text-grey-dark mt-6">
+        <div class="text-grey-dark mt-6" hx-boost="true">
+            Forgotten password? 
+            <a class="no-underline border-b border-blue text-blue" href="{% url 'password_reset' %}">
+                reset password
+            </a>.
+        </div>
+        <div class="text-grey-dark mt-6" hx-boost="true">
             Do not have an account? 
-            <a class="no-underline border-b border-blue text-blue" href="{% url 'core:signup' %}">
+            <a class="underline border-b border-blue text-blue" href="{% url 'core:signup' %}">
                 Sign up
             </a>.
         </div>
