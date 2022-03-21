@@ -1,1 +1,1 @@
-web: gunicorn fidehjobs.wsgi
+web: gunicorn FidehJobs.wsgi
