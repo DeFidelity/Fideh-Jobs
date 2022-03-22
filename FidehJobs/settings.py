@@ -103,16 +103,16 @@ WSGI_APPLICATION = 'FidehJobs.wsgi.application'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASS'),
-        'HOST': 'localhost',
-        'PORT': '5432',
-        }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': env('DATABASE_NAME'),
+#         'USER': env('DATABASE_USER'),
+#         'PASSWORD': env('DATABASE_PASS'),
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#         }
+# }
 
 import dj_database_url
 
