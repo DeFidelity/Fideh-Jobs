@@ -90,14 +90,12 @@ class ProfileEditView(View):
         return render(request,'user/profile-edit.html',context)
         
     def post(self,request,email,*args,**kwargs):
-        form = ProfileForm(request.POST)
         profile = get_object_or_404(UserProfile,user__email=request.user)
+        form = ProfileForm(request.POST,instance=profile)
         if profile:
             if form.is_valid():
-                profile = form.save(commit=False)
-                profile.user = request.user
                 profile.save()
                 
-                return redirect('profile',request.user.email)
+                return redirect('users:profile',request.user.email)
             return render(request,'user/profile.html',{'profile':profile})
         
