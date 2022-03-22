@@ -1,6 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'user/dashboard.html' %}
 {% block title %}Profile {% endblock title %}
-{% block content %}
+{% block body %}
 
 <div class="bg-gray-100">
  <div class="w-full text-white bg-main-color">
@@ -13,8 +13,11 @@
             <div class="bg-white p-3 border-t-4 border-green-400">
                 <div class="image overflow-hidden">
                     <img class="h-auto w-full mx-auto"
-                        src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
-                        alt="">
+                        src="https://ui-avatars.com/api/?background=random&name={% if profile.username %}
+                        {{profile.username}}
+                    {% else %}
+                        {{request.user.first_name}}
+                    {% endif %}" alt="">
                 </div>
                 <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">
                 {% if profile.username %}
@@ -52,13 +55,11 @@
                     <div class="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
                         <span class="text-green-500">
                         </span>
-                        <span>Similar Profiles</span>
+                        <span></span>
                     </div>
                     <div class="grid grid-cols-3">
                         <div class="text-center my-2">
-                            <img class="h-16 w-16 rounded-full mx-auto"
-                                src="https://cdn.australianageingagenda.com.au/wp-content/uploads/2015/06/28085920/Phil-Beckett-2-e1435107243361.jpg"
-                                alt="">
+                            
                             <svg class="h-5 fill-current" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -172,4 +173,4 @@
     </div>
 </div>
 </div>
-{%endblock content %}
+{%endblock body %}

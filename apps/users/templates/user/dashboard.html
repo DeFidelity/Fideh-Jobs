@@ -155,8 +155,8 @@
                                     <a href="{% url 'users:applicant-detail' job.pk %}">{{ job.title }}</a>
                                 </h1>
                                 <div class="">
-                                    <p class="text-normal p-1 font-light text-center ">description: {{job.description|truncatewords:20 }}</p>
-                                    <p class="text-sm font-thin mt-4 text-left">{{job.detail|truncatewords:10}}</p>
+                                    <h4 class="text-lg font-bold">Description:</h4>
+                                    <p class="text-normal p-1 font-light text-center ">\{{job.description|truncatewords:50}}</p>
                                 </div>
                                 <footer class="rounded-b-lg bg-gray-100 text-sm text-gray-500 px-8 py-3 flex justify-between">
                                     <h3 hx-boost="true" class="text-xl text-left p-1  ">Job by: 

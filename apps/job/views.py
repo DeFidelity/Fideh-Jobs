@@ -119,9 +119,12 @@ class JobApplication(LoginRequiredMixin,UserPassesTestMixin,View):
     def post(self,request,pk,*args,**kwargs):
         job = Job.objects.get(pk=pk)
         form = ApplicationForm(request.POST)
-        
+        applicants = Application.objects.filter(job=job)
         if request.user.profile.is_employer:
             return HttpResponse('<p class="text-sm text-red-600 text-center">An employer can not apply for jobs, sorry for any inconvenience caused.</p>')
+        
+        if request.user in applicants:
+            return HttpResponse('<p class="text-sm text-red-600 text-center">"You have applied for this job before"</p>')
         if form.is_valid():
             application = form.save(commit=False)
             application.job = job

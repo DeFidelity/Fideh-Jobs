@@ -33,9 +33,9 @@ class EmployerJobDetail(View, LoginRequiredMixin):
 class ApplicantJobDetail(View,LoginRequiredMixin):
     def get(self,request,pk,*args,**kwargs):
         if request.user.profile.is_employer:
-            application = get_object_or_404(Application,pk=pk,job__created_by=request.user)
+            application = get_object_or_404(Application,job=pk,job__created_by=request.user)
         else:
-            application = get_object_or_404(Application,pk=pk,created_by=request.user)
+            application = get_object_or_404(Application,job=pk,created_by=request.user)
         job = Job.objects.get(application=application)
         print(0)
         conversation_message = Conversation.objects.filter(application=application)
@@ -95,7 +95,7 @@ class ProfileEditView(View):
         if profile:
             if form.is_valid():
                 profile = form.save(commit=False)
-                profile.is_employer = request.user.profile.is_employer
+                profile.user = request.user
                 profile.save()
                 
                 return redirect('profile',request.user.email)
