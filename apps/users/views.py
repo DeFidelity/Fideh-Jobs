@@ -95,7 +95,6 @@ class ProfileEditView(View):
         if profile:
             if form.is_valid():
                 profile = form.save(commit=False)
-                profile.user = request.user
                 profile.is_employer = request.user.profile.is_employer
                 profile.save()
                 

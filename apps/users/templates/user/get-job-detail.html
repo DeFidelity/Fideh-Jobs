@@ -1,11 +1,21 @@
 {% extends 'user/dashboard.html' %}
+{% block title %}Details: {{job.title}} {% endblock title %}
 {% block body %}
 <div class="container m-12 p-5 text-gray-700 rounded-lg bg-gray-200 shadow px-5 py-24">
     <div class="mb-20 text-center">
         <p class="w-full p-4 m-6 rounded-lg font-semibold text-center bg-purple-600 text-white uppercase">Job Informations</p>
+        
+        <div class="">
+            <h4 class="text-lg font-bold">Description:</h4>
+            <p class="text-normal p-1 font-light text-center "> {{job.description }}</p>
+        </div>
+        <div class="">
+            <h4 class="text-lg font-bold">description:</h4>
+            <p class="text-normal p-1 font-light text-center "> {{job.detail }}</p>
+        </div>
 
         <p class="mx-auto mb-2 text-base leading-relaxed xl:w-2/4 lg:w-3/4">
-            Here are details of the  <span class="border-b-4 uppercase border-purple-500">response</span>
+            Here are details of the  <span class="border-b-4 uppercase border-purple-500">responses</span>
             from the job you posted.
         </p>
     </div>

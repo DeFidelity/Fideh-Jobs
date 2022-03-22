@@ -1,6 +1,7 @@
 {% extends 'user/dashboard.html' %}
+{% block title %}Notifications{% endblock title %}
 {% block body %}
-    <p class="w-full p-4 m-6 rounded-lg font-semibold text-center bg-purple-600 text-white uppercase">Notifications</p>
+    <p class="w-full p-4 m-6 rounded-lg font-semibold text-center bg-purple-500 text-white uppercase">Notifications</p>
     {% if not unread_notifications and read_notifications %}
         No notifications yet
     {% endif %}
@@ -42,5 +43,9 @@
                 </li>
         </ul>
             {% endif %}
+    {% empty %}
+    <p hx-boost="true" class="border  text-white text-lg font-light bg-gray-500 text-left list-none rounded-sm px-3 py-3" style='border-bottom-width:0'>
+        You do not have any notification for now.
+    </p>
     {% endfor %}
 {% endblock body %}

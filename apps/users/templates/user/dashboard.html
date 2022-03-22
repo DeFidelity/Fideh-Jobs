@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Dashboard{% endblock title %}
 {% block nav-item %}{% endblock nav-item %}
 {% block content %}
 <div class="flex h-screen container w-full">
@@ -125,7 +126,8 @@
                                     <a href="{% url 'users:employer-detail' job.pk %}">{{ job.title }}</a>
                                 </h1>
                                 <div class="">
-                                    <p class="text-normal p-1 font-light text-center ">description: {{job.description }}</p>
+                                    <h4 class="text-lg font-bold">Description:</h4>
+                                    <p class="text-normal p-1 font-light text-center "> {{job.description|truncatewords:50 }}</p>
                                 </div>
                                 <footer class="rounded-b-lg bg-gray-100 text-sm text-gray-500 py-3 flex flex-shrink">
                                     <p class="m-3 p-1">By:{{job.created_by}}</p>

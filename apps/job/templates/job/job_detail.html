@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
+{% block title %}Detail: {{job.title}} {% endblock title %}
 {% block content %}
 <div class="h-screen bg-gray-100 flex items-start lg:items-center justify-center">
 
 <div class="container mx-auto px-3 md:px=4  h-full">
     <p class="w-full p-4 my-4 md:my-8 rounded-lg font-semibold self-center text-center bg-purple-600 text-white normal-case">Neccesary Informations about this Job.</p>
-
-    <h3 class="text-xl text-purple-400 text-left p-1 font-semiboald ">Job Title: {{job.title}}</h3>
-    <h3 hx-boost="true" class="text-xl text-left p-1  ">Job by: 
-        <a href="{% url 'users:profile' job.created_by%}" class="font-semiboald cursor-pointer text-gray-700">{% if job.created_by.profile.username %}{{job.created_by.profile.username}} {% else %}{{job.created_by}}{% endif %}</a>
-            
-    </h3>
+    <div class="self-center">
+        <h3 class="text-xl text-purple-400 text-left p-1 font-semiboald ">Job Title: {{job.title}}</h3>
+        <h3 hx-boost="true" class="text-xl text-left p-1  ">Job by: 
+            <a href="{% url 'users:profile' job.created_by%}" class="font-semiboald cursor-pointer text-gray-700">{% if job.created_by.profile.username %}{{job.created_by.profile.username}} {% else %}{{job.created_by}}{% endif %}</a>  
+        </h3>
+    </div>
     <section x-data="{ selectedItem: 1 }" class="shadow-md bg-gray-200 overflow-hidden rounded-lg mt-6 sm:shadow-lg lg:mt-16 lg:mx-auto lg:max-w-4xl">
         
         <article class="border-gray-400 border-b hover:bg-gray-300">
@@ -134,8 +135,12 @@
             <p class="max-w-md mx-auto mt-3 text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
                 Write a stand-out proposal that you feel would win you this job and present your experience to the employer for a consideration
             </p>
+            {% if request.user.profile.is_employer %}
+            <p class="max-w-md mx-auto mt-3 text-base text-gray-500 uppercase sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+             Employer users can not apply for jobs   
+            </p>
+            {% else %}
             <div class="flex justify-center mt-8 space-x-3">
-                
                 <a 
                     {% if user.is_authenticated %}
                         href="{% url 'job:job-apply' job.pk %}" 
@@ -143,9 +148,8 @@
                         href="{% url 'core:login' %}"
                     {% endif %}
                     class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow hover:bg-indigo-700">Apply</a>
-               
-                <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-indigo-700 bg-indigo-100 border border-transparent rounded-md hover:bg-indigo-200">More</a>
             </div>
+            {% endif %}
         </div>
     </section>
 </div>
