@@ -12,8 +12,10 @@ from apps.notification.utilities import create_notification
 class JobDetail(View,LoginRequiredMixin):
     def get(self, request,pk,*args,**kwargs):
         job = Job.objects.get(pk=pk)
+        application = Application.objects.filter(job=job,created_by=request.user)
         context = {
             "job": job,
+            'application':application,
         }
         return render(request,'job/job_detail.html',context)
     
@@ -111,6 +113,9 @@ class JobDelete(LoginRequiredMixin,View):
 class JobApplication(LoginRequiredMixin,UserPassesTestMixin,View):
     def get(self, request,pk,*args, **kwargs):
         job = Job.objects.get(pk=pk)
+        application = Application.objects.filter(job=job,created_by=request.user)
+        if application:
+            return HttpResponse('<p class="text-sm text-red-600 text-center">You have applied for this job already</p>')
         context= {
                 'job':job,
             }

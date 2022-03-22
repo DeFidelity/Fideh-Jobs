@@ -127,31 +127,37 @@
             </div>
         </article>
     </section>
+    {% if application%}
+    <div class="flex justify-center mt-8 space-x-3">
+        <a 
+            class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow hover:bg-indigo-700">You have applied to this job already.</a>
+    </div>
+    {% else %}
+        <section class=" bg-gray-200 rounded-lg mx-14 p-5 mt-5">
+            <div class="px-4 mx-auto text-center max-w-7xl sm:px-6 lg:px-8">
+                <p class="w-full p-4 pt-2 mb-3 md:mb-5 rounded-lg font-semibold text-center bg-purple-600 text-white normal-case">Job Application</p>
 
-    <section class=" bg-gray-200 rounded-lg mx-14 p-5 mt-5">
-        <div class="px-4 mx-auto text-center max-w-7xl sm:px-6 lg:px-8">
-            <p class="w-full p-4 pt-2 mb-3 md:mb-5 rounded-lg font-semibold text-center bg-purple-600 text-white normal-case">Job Application</p>
-
-            <p class="max-w-md mx-auto mt-3 text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                Write a stand-out proposal that you feel would win you this job and present your experience to the employer for a consideration
-            </p>
-            {% if request.user.profile.is_employer %}
-            <p class="max-w-md mx-auto mt-3 text-base text-gray-500 uppercase sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-             Employer users can not apply for jobs   
-            </p>
-            {% else %}
-            <div class="flex justify-center mt-8 space-x-3">
-                <a 
-                    {% if user.is_authenticated %}
-                        href="{% url 'job:job-apply' job.pk %}" 
-                    {% else %}
-                        href="{% url 'core:login' %}"
-                    {% endif %}
-                    class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow hover:bg-indigo-700">Apply</a>
+                <p class="max-w-md mx-auto mt-3 text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+                    Write a stand-out proposal that you feel would win you this job and present your experience to the employer for a consideration
+                </p>
+                {% if request.user.profile.is_employer %}
+                <p class="max-w-md mx-auto mt-3 text-base text-gray-500 uppercase sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+                Employer users can not apply for jobs   
+                </p>
+                {% else %}
+                <div class="flex justify-center mt-8 space-x-3">
+                    <a 
+                        {% if user.is_authenticated %}
+                            href="{% url 'job:job-apply' job.pk %}" 
+                        {% else %}
+                            href="{% url 'core:login' %}"
+                        {% endif %}
+                        class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow hover:bg-indigo-700">Apply</a>
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
-        </div>
-    </section>
+        </section>
+    {% endif %}
 </div>
 {% block footer %}{% endblock footer %}
 {% endblock content %}

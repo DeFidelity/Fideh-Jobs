@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, render
+from django.http import HttpResponse
 from apps.users.models import CustomUser
 from django.contrib.auth import login, authenticate, logout
 from django.views import View
-from .forms import UserForm, LoginForm
+from .forms import UserForm, LoginForm, ContactForm
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.contrib import messages
 from apps.job.models import Job
@@ -78,3 +79,20 @@ class LogoutView(LoginRequiredMixin, View):
     def post(self,request):
         logout(request)
         return redirect('core:landing')
+    
+class ContactView(View):
+    def get(self,request):
+        return render(request,'contact.html')
+    def post(self,request,*args, **kwargs):
+        message = request.POST.get('message')
+        form = ContactForm(request.POST)
+        if len(message.split()) < 10:
+            return HttpResponse('<p class="text-sm text-red-500 text-center">Form error,please write a descriptive message</p>')
+            
+        if form.is_valid():
+            form.save()
+            return HttpResponse('<p class="text-sm text-green-500 text-center">Thank you for reaching out to us, we will get back to you later</p>')
+        else:
+            return HttpResponse('<p class="text-sm text-red-500 text-center">Form error, please enter a valid email and descriptive message</p>')
+            
+            

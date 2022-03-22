@@ -1,3 +1,4 @@
+import profile
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from django.views.generic.base import RedirectView
@@ -33,9 +34,9 @@ class EmployerJobDetail(View, LoginRequiredMixin):
 class ApplicantJobDetail(View,LoginRequiredMixin):
     def get(self,request,pk,*args,**kwargs):
         if request.user.profile.is_employer:
-            application = get_object_or_404(Application,job=pk,job__created_by=request.user)
+            application = get_object_or_404(Application,job=pk,job__created_by=request.user).first()
         else:
-            application = get_object_or_404(Application,job=pk,created_by=request.user)
+            application = get_object_or_404(Application,job=pk,created_by=request.user).first()
         job = Job.objects.get(application=application)
         print(0)
         conversation_message = Conversation.objects.filter(application=application)
@@ -74,7 +75,8 @@ class ApplicantJobDetail(View,LoginRequiredMixin):
         
 class ProfileView(View, LoginRequiredMixin):
     def get(self,request,email,*args,**kwargs):
-        profile = get_object_or_404(UserProfile,user__email=email)
+        # profile = get_object_or_404(UserProfile,user__email=email)
+        profile = UserProfile.objects.get(user__email=email)
         
         context ={
             'profile': profile,

@@ -23,7 +23,7 @@
                 {% if profile.username %}
                     {{profile.username}}
                 {% else %}
-                    {{request.user.email}}
+                    {{profile.user.email}}
                 {% endif %}
                 </h1>
                 <h3 class="text-gray-600 font-lg text-semibold leading-6">{{profile.field}}</h3>
@@ -34,42 +34,22 @@
                         <span>Status</span>
                         <span class="ml-auto"><span
                                 class="bg-green-500 py-1 px-2 rounded text-white text-sm">
-                                {% if profile.status %}Active {% else %} Deactivated {% endif %}</span></span>
+                            {% if profile.status %}Active {% else %} Deactivated {% endif %}</span>
                     </li>
-                    <li class="flex items-center py-3">
-                        <span>Member since</span>
-                        <span class="ml-auto">Nov 07, 2016</span>
+                    <li class="py-3">
+                        <span>Joined:</span>
+                        <span class="block text-sm tracking-tighter">{{request.user.date_joined|timesince}} ago.</span>
                     </li>
                     {% if request.user == profile.user %}
                         <li class="flex items-center py-3">
-                        <span>Your Profile</span>
-                        <a href="{% url 'users:profile-edit' profile.user.email%}" class="bg-purple-500 py-1 px-2 rounded text-white text-sm">Edit</a>
+                        <a href="{% url 'users:profile-edit' profile.user.email%}" class="bg-purple-500 py-1 px-2 rounded text-white text-sm">Edit Profile </a>
                     </li>
                     {% endif %}
                 </ul>
             </div>
             <!-- End of profile card -->
         <div class="my-4"></div>
-                <!-- Friends card -->
-                <div class="bg-white p-3 hover:shadow">
-                    <div class="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
-                        <span class="text-green-500">
-                        </span>
-                        <span></span>
-                    </div>
-                    <div class="grid grid-cols-3">
-                        <div class="text-center my-2">
-                            
-                            <svg class="h-5 fill-current" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                            <a href="#" class="text-main-color"></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End of friends card -->
+                
             </div>
         <!-- Right Side -->
         <div class="w-full md:w-9/12 mx-2 h-64">

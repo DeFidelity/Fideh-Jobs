@@ -4,7 +4,7 @@ from django.contrib.auth import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/for-management/of/this/domain/', admin.site.urls,name="management"),
     path('', include('apps.core.urls')),
     path('job/',include('apps.job.urls')),
     path('user/', include('apps.users.urls')),
