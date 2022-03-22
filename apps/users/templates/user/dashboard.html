@@ -150,6 +150,34 @@
         <div class="pb-1 text-center text-gray-700 bg-cover"> 
             <div class="my-8">
                 <div class="max-w-xl px-4 mx-auto sm:px-6 lg:max-w-screen-xl lg:px-8">
+                    <div class="lg:grid lg:grid-cols-2 gap-3 lg:gap-8 ">
+                        {% for application in applications %}
+                            <div class="p-16 relative transition-all duration-150 border-2 border-gray-300 bg-white rounded-lg shadow-xl ease hover:shadow-2xl">
+                                <h1 hx-boost="true" class="text-xl font-semibold  mt-4 p-3"> 
+                                    <a href="{% url 'users:applicant-detail' application.pk %}">{{ application.job.title }}</a>
+                                </h1>
+                                <div class="">
+                                    <h4 class="text-lg font-bold">Description:</h4>
+                                    <p class="text-normal p-1 font-light text-center "> {{application.job.description|truncatewords:50 }}</p>
+                                </div>
+                                <footer class="rounded-b-lg bg-gray-100 text-sm text-gray-500 py-3 flex flex-shrink">
+                                    <p class="m-3 p-1">By:{{application.job.created_by}}</p>
+                                    <p class="m-3 p-1 ">{{application.job.created_on|timesince}} ago.</p>
+                                </footer>
+                                <div hx-boost="true" class="text-center">
+                                    <a class="absolute inset-x-0 bottom-0 h-16 mt-4 p-3 bg-purple-500 text-white  hover:bg-purple-800 rounded-lg shadow-xl"href="{% url  'users:applicant-detail' application.pk  %}">View Job</a>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <h2 class="text-purple-500 uppercase text-2xl text-center m-20"> YOU HAVE NOT APPLIED TO ANY JOB</h2>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% comment %} <div class="pb-1 text-center text-gray-700 bg-cover"> 
+            <div class="my-8">
+                <div class="max-w-xl px-4 mx-auto sm:px-6 lg:max-w-screen-xl lg:px-8">
                     <div class="lg:grid lg:grid-cols-3 gap-3 lg:gap-8 ">
                         {% for job in applied_jobs %}
                         <div class="p-16 relative transition-all duration-150 border-2 border-gray-300 bg-white rounded-lg shadow-xl ease hover:shadow-2xl">
@@ -164,7 +192,7 @@
                                     {% comment %} <h3 hx-boost="true" class="text-xl text-left p-1  "> 
                                         <a href="{% url 'users:profile' job.created_by%}" class="font-semiboald cursor-pointer text-gray-700">{% if job.created_by.profile.username %}{{job.created_by.profile.username}} {% else %}{{job.created_by}}{% endif %}</a>
                                         
-                                    </h3> {% endcomment %}
+                                    </h3> 
                                     <p class="m-3 p-1"><a href="{% url 'users:profile' job.created_by%}" class="font-semiboald cursor-pointer text-gray-700">{% if job.created_by.profile.username %}{{job.created_by.profile.username}} {% else %}{{job.created_by}}{% endif %}</a>
                                     </p>
                                     <p class="m-3 p-1 ">{{job.created_on|timesince}} ago.</p>
@@ -179,7 +207,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
         {% endif %}
         
     {% endblock body %}

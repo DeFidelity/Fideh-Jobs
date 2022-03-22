@@ -12,12 +12,12 @@ class Dashboard(View,LoginRequiredMixin):
     def get(self,request):
         
         user = request.user
-        application = Application.objects.filter(created_by=user)
+        applications = Application.objects.filter(created_by=user)
         your_jobs = Job.objects.filter(created_by=user).order_by('-created_on')
         applied_jobs = Job.objects.filter(application__created_by=user)
         
         context ={
-            'application': application,
+            'applications': applications,
             'your_jobs': your_jobs,
             'user':request.user.profile,
             'applied_jobs': applied_jobs
@@ -34,9 +34,9 @@ class EmployerJobDetail(View, LoginRequiredMixin):
 class ApplicantJobDetail(View,LoginRequiredMixin):
     def get(self,request,pk,*args,**kwargs):
         if request.user.profile.is_employer:
-            application = get_object_or_404(Application,job=pk,job__created_by=request.user).first()
+            application = get_object_or_404(Application,pk=pk,job__created_by=request.user)
         else:
-            application = get_object_or_404(Application,job=pk,created_by=request.user).first()
+            application = get_object_or_404(Application,pk=pk,created_by=request.user)
         job = Job.objects.get(application=application)
         print(0)
         conversation_message = Conversation.objects.filter(application=application)
