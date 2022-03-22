@@ -1,0 +1,42 @@
+<form hx-post="{% url 'core:signup' %}" hx-swap="outerHTML" hx-target="body" hx-push-url="/user/dashboard/">
+    {% csrf_token %}
+    <input 
+        type="text"
+        class="block border border-grey-light w-full p-3 rounded mb-4"
+        name="first_name"
+        placeholder="Full Name" />
+        {% for error in forms.username.errors %}
+            <p class="text-sm text-red-500 text-start">*{{error}}</p>
+        {% endfor %}
+
+    <input 
+        type="text"
+        class="block border border-grey-light w-full p-3 rounded mb-4"
+        name="email"
+        placeholder="Email" />
+        {% for error in forms.username.errors %}
+            <p class="text-sm text-red-500 text-start">*{{error}}</p>
+        {% endfor %}
+
+    <input 
+        type="password"
+        class="block border border-grey-light w-full p-3 rounded mb-4"
+        name="password"
+        placeholder="Password" />
+        {% for error in forms.username.errors %}
+            <p class="text-sm text-red-500 text-start">{{error}}</p>
+        {% endfor %}
+    
+    <select name="user_type" class="block border border-grey-light w-full p-3 rounded mb-8" placeholder="Regular input">
+        <option value="jobseeker" selected>I want to work</option>
+        <option value="employer">I want to hire</option>
+    </select>
+    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+    </div>
+    
+    <button
+        type="submit"
+        class="w-full text-center py-3 rounded bg-purple-500 text-white hover:bg-purple-900 focus:outline-none my-1"
+    >Create Account</button>
+</form>

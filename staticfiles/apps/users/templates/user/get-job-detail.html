@@ -1,0 +1,118 @@
+{% extends 'user/dashboard.html' %}
+{% block title %}Details: {{job.title}} {% endblock title %}
+{% block body %}
+<div class="container m-12 p-5 text-gray-700 rounded-lg bg-gray-200 shadow px-5 py-24">
+    <div class="mb-20 text-center">
+        <p class="w-full p-4 m-6 rounded-lg font-semibold text-center bg-purple-600 text-white uppercase">Job Informations</p>
+        
+        <div class="">
+            <h4 class="text-lg font-bold">Description:</h4>
+            <p class="text-normal p-1 font-light text-center "> {{job.description }}</p>
+        </div>
+        <div class="">
+            <h4 class="text-lg font-bold">Details:</h4>
+            <p class="text-normal p-1 font-light text-center "> {{job.detail }}</p>
+        </div>
+
+        <p class="mx-auto mb-6 text-base leading-relaxed xl:w-2/4 lg:w-3/4">
+            Here are details of the  <span class="border-b-4 uppercase border-purple-500">responses</span>
+            from the job you posted.
+        </p>
+    </div>
+    <div class="flex flex-wrap -mx-2 lg:w-4/5 sm:mx-auto sm:mb-2">
+        <div class="w-full px-4 py-2 lg:w-1/2">
+            <details class="mb-4 bg-gray-100">
+                <summary class="px-4 py-2 font-semibold bg-gray-300 rounded-md cursor-pointer">
+                    Job title:
+                </summary>
+
+                <p class="px-4 text-lg font-light text-gray-600 py-2">
+                    {{job.title}}
+                </p>
+            </details>
+            <details class="mb-4 bg-gray-100">
+                <summary class="px-4 py-2 font-semibold bg-gray-300 rounded-md cursor-pointer">
+                    Payment Range
+                </summary>
+
+                <p class="px-4 text-lg font-light text-gray-600 py-2">
+                    {{job.payment_range}}
+                </p>
+            </details>
+             <details class="mb-4 bg-gray-100">
+                <summary class="px-4 py-2 font-semibold bg-gray-300 rounded-md cursor-pointer">
+                    Wage
+                </summary>
+
+                <p class="px-4 text-lg font-light text-gray-600 py-2">
+                    {{job.payment_range}}
+                </p>
+            </details>
+            <details class="mb-4 bg-gray-100">
+                <summary class="px-4 py-2 font-semibold bg-gray-300 rounded-md cursor-pointer">
+                    Remote or On Site
+                </summary>
+
+                <p class="px-4 text-lg font-light text-gray-600 py-2">
+                    {% if job.remote %}Remote {% else %} On Site {% endif %}
+                </p>
+            </details>
+        </div>
+        <div class="w-full px-4 py-2 lg:w-1/2">
+            <details class="mb-4 bg-gray-100">
+                <summary class="px-4 py-2 font-semibold bg-gray-300 rounded-md cursor-pointer">
+                    Total Number of applicant(s)
+                </summary>
+
+                <p class="px-4 text-lg font-light text-gray-600  py-2">
+                    {{job.application.count}}
+                </p>
+            </details>
+            <details class="mb-4 bg-gray-100">
+                <summary class="px-4 py-2 font-semibold bg-gray-300 rounded-md cursor-pointer">
+                    Required Experience
+                </summary>
+
+                <p class="px-4 text-lg font-light text-gray-600 py-2">
+                    {{job.experience}}
+                </p>
+            </details>
+           
+            <details class="mb-4 bg-gray-100">
+                <summary class="px-4 py-2 font-semibold bg-gray-300 rounded-md cursor-pointer">
+                    Job Duration
+                </summary>
+
+                <p class="px-4 text-lg font-light text-gray-600 py-2">
+                    {{job.duration}}
+                </p>
+            </details>
+        </div>
+    </div>
+    <div hx-boost="true" class="flex justify-center mt-8 space-x-3">
+        <a href="{% url 'job:delete-job' job.pk%}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow hover:bg-red-700">{%csrf_token%} Delete Job</a>
+        <a href="{% url 'job:edit-job' job.pk %}" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-indigo-700 bg-indigo-100 border border-transparent rounded-md hover:bg-indigo-200">Edit Job
+        </a>
+    </div>
+</div>
+<p class="w-full p-4 m-6 rounded-lg font-semibold text-center bg-purple-600 text-white uppercase">Applicants Informations</p>
+<section class="relative py-16 bg-white min-w-screen animation-fade animation-delay">
+    <div class="container px-0 mx-auto sm:px-5">
+        {% for application in job.application.all %}
+            <div
+                class="w-full relative px-6 py-6 mx-auto mt-10 bg-white border border-gray-200 sm:px-8 md:px-12 sm:py-8 sm:rounded-lg sm:shadow md:w-2/3">
+                <h3 hx-boost="true" class="text-lg font-bold text-purple-500 sm:text-xl md:text-2xl">Applicant name: 
+                <a href="{% url 'users:profile' application.created_by%}">{% if application.created_by.profile.username %}{{application.created_by.profile.username}}{% else %} {{application.created_by}}{% endif %} </a>
+                </h3>
+                 
+                <small class="mx-6 text-xs font-bold text-left text-purple-500 uppercase sm:text-center sm:text-normal sm:font-bold">Applicants Experience: {{application.experience}}</small>
+                <p class="mt-2 text-base text-gray-600 sm:text-lg md:text-normal">Proposal: {{application.proposal}}</p>
+                 <a href="{% url 'users:applicant-detail' application.pk%}" class="absolute  bottom-0 h-16 py-3 text-center w-2/3 font-medium text-white bg-purple-700 border border-transparent rounded-md hover:bg-purple-500">View Application detail</a>
+            </div>
+        {% empty %}
+            <p class="mt-2 text-base text-gray-600 sm:text-lg md:text-normal">No applicant for this job yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock body %}
+

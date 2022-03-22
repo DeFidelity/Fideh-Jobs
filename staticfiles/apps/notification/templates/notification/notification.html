@@ -1,0 +1,51 @@
+{% extends 'user/dashboard.html' %}
+{% block title %}Notifications{% endblock title %}
+{% block body %}
+    <p class="w-full p-4 m-6 rounded-lg font-semibold text-center bg-purple-500 text-white uppercase">Notifications</p>
+    {% if not unread_notifications and read_notifications %}
+        No notifications yet
+    {% endif %}
+
+    {% for notification in unread_notifications  %}
+        <ul class="px-0">
+            {% if notification.notification_type == 'message' %}
+                <li hx-boost="true" class="border  text-white text-lg font-light bg-gray-900 text-left list-none rounded-sm px-3 py-3" style='border-bottom-width:0'>
+                    <a href="{% url 'notification:notification' %}?goto=applicant-detail&pk={{ notification.pk}}&extra_pk={{notification.extra_pk}}">
+                        {{notification.created_by.email}} <span class=""> Sent you a message</span>
+                    </a>
+                    <p class="text-xs">{{notification.created_at|timesince}} ago.</p>
+                </li>
+            {% elif notification.notification_type == 'application' %}
+                <li hx-boost="true" class="border  text-white text-lg font-lightbg-gray-900 text-letf list-none rounded-sm px-3 py-3" style='border-bottom-width:0'>
+                    <a href="{% url 'notification:notification' %}?goto=applicant-detail&pk={{ notification.pk}}">
+                        {{notification.created_by.username}} <span class=""> Applied for your job</span>
+                    </a>
+                    <p class="text-xs">{{notification.creared_at|timesince}} ago.</p>
+                </li>
+        </ul>
+            {% endif %}
+    {% endfor %}
+     {% for notification in read_notifications  %}
+        <ul class="px-0">
+            {% if notification.notification_type == 'message' %}
+                <li hx-boost="true" class="border  text-white text-lg font-light bg-gray-500 text-left list-none rounded-sm px-3 py-3" style='border-bottom-width:0'>
+                    <a href="{% url 'notification:notification' %}?goto=applicant-detail&pk={{ notification.pk}}&extra_pk={{notification.extra_pk}}">
+                        {{notification.created_by.email}} <span class=""> Sent you a message</span>
+                    </a>
+                    <p class="text-xs">{{notification.created_at|timesince}} ago.</p>
+                </li>
+            {% elif notification.notification_type == 'application' %}
+                <li hx-boost="true" class="border  text-white text-lg font-lightbg-gray-500 text-left list-none rounded-sm px-3 py-3" style='border-bottom-width:0'>
+                    <a href="{% url 'notification:notification' %}?goto=applicant-detail&pk={{ notification.pk}}">
+                        {{notification.created_by.username}} <span class=""> Applied for your job</span>
+                    </a>
+                    <p class="text-xs">{{notification.created_at|timesince}} ago.</p>
+                </li>
+        </ul>
+            {% endif %}
+    {% empty %}
+    <p hx-boost="true" class="border  text-white text-lg font-light bg-gray-500 text-left list-none rounded-sm px-3 py-3" style='border-bottom-width:0'>
+        You do not have any notification for now.
+    </p>
+    {% endfor %}
+{% endblock body %}

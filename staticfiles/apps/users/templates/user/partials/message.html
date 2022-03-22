@@ -1,0 +1,59 @@
+<div id="chat" class="flex flex-col h-full overflow-y-scroll w-full bg-gray-100 p-4 border-2 border-white">
+  <div class="flex mt-2 flex-col-reverse space-y-3 mb-20 pb-3 ">  
+        {% for message in messages %}
+        {% if message.created_by == request.user %}
+            <div class="w-max ml-auto break-all mt-2 mb-1 p-2 rounded-br-none bg-purple-500 rounded-2xl text-white text-left mr-5">
+                <span class="m-2 text-sm font-thin block text-left mt-0">You</span>
+            {{message.message}}
+            </div>
+        {% else %}
+            <div class="other break-all mt-2 text-white ml-5 rounded-bl-none float-none bg-purple-900 mr-auto rounded-2xl p-2">
+            <span class="m-2 text-sm font-thin block text-left mt-0">{{message.created_by}}</span>
+            {{message.message}}
+            </div>
+        {% endif %}
+        {% empty %}
+        No Conversation Yet
+        {% endfor %}
+  </div>
+
+
+<div class="flex flex-row  items-center  bottom-0 my-2 w-full">
+<form hx-post="{% url 'users:applicant-detail' application.pk%}" hx-swap="outerHTML" hx-target="#chat"
+    class="ml-2 flex flex-row border-gray items-center w-full border rounded-3xl h-12 px-2" >
+    {% csrf_token %}
+        <div class="w-full">
+            <input
+            type="text"
+            id="message"
+            name="message"
+            class="border border-b-2 border-gray-300 p-3 rounded-2xl border-transparent w-full focus:outline-none text-sm h-10 flex items-center"
+            placeholder="Type your message...."
+            />
+        </div>
+        <div>
+            <button
+            id="self"
+            type="submit"
+            class="flex items-center justify-center h-10 w-10 mr-2 rounded-full hover:bg-purple-300 bg-purple-800 text-white focus:outline-none"
+        >
+            <svg
+            class="w-6 h-6 transform rotate-90 -mr-px"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+            ></path>
+            </svg>
+        </button>
+
+    </form>
+</div>
+
+</div>

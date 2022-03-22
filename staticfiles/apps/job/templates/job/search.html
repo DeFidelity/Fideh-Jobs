@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Search{% endblock title %}
+{% block content %}
+
+  <div class="flex items-center justify-center ">
+    <form hx-post="{% url 'job:search' %}" hx-target="#searchResult" hx-swap="outerHTML">
+    <div class="flex border-2 border-gray-200 rounded">
+        <input name="query" type="text" class="px-4 py-2 w-80" placeholder="Search...">
+        <button type="submit" class="px-4 text-white bg-gray-600 border-l ">Search</button>
+        <div class="form-check mx-3">
+          Remote
+          <input class="form-check-input self-center appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-purple-600 checked:border-purple-600 focus:outline-none transition duration-200 my-1 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer" type="checkbox" value="" id="flexCheckDefault3">
+        </div>
+      </form>
+    </div>
+  </div>
+  {% include 'job/partials/searchresult.html' %}
+
+  {% endblock content %}

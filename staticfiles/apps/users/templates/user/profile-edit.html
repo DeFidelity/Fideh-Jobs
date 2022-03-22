@@ -1,0 +1,38 @@
+{% extends 'user/dashboard.html' %}
+{% block title %}Profile Edit{% endblock title %}
+{% block body %}
+<div class="bg-gray-300">
+    <div class="py-12">
+        <div class="w-full bg-white shadow-lg rounded-lg mx-2">
+            <div class="md:flex ">
+                <div class="w-full p-4 px-5 py-5">
+                    <span>Edit Profile</span>
+                    <div class="relative pb-5"> 
+                    <form method="POST" action="{% url 'users:profile-edit' profile.user %}">
+                    {% csrf_token %}
+                        <input type="text" {% if profile.username != None %}value="{{profile.username}}"{% endif %} class="name="username" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="Username"> 
+                        <div class="grid md:grid-cols-2 md:gap-2"> 
+                            <input type="text" {% if profile.field != None %}value="{{profile.field}}{% endif %}" name="field" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="Field*"> 
+                            <input type="text" {% if profile.age != None  %}value="{{profile.age}}"{% endif %}  name="age" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="Age*"> 
+                        </div> 
+                        <input type="text" {% if profile.qualification != None %}value="{{profile.qualification}}"{% endif %}  name="qualification" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="Qualification"> 
+                        <input type="text" {% if profile.experience != None %}value="{{profile.experience}}"{% endif %}  name="experience" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="Experience* (Specify if in years or months)"> 
+                        <input type="text" {% if profile.education != None %} value="{{profile.education}}"{% endif %} name="education" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="Education">
+                        <div class="grid md:grid-cols-3 md:gap-2"> 
+                            <input type="text" {% if profile.country != None %}value="{{profile.country}}"{% endif %}  name="country" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="Country*"> 
+                            <input type="text" {% if profile.contact != None %}value="{{profile.contact}}"{% endif %}  name="contact" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="Gender*"> 
+                            <input type="text" {% if profile.gender != None %}value="{{profile.gender}}" {% endif %} name="gender" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="Contact*"> 
+                        </div> 
+                        <textarea name="about" {% if profile.about != None %}value="{{profile.about}}"{% endif %}  placeholder="About your self in just 500 words" class="border rounded h-20 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm"rows="3"></textarea>
+                        <div class="flex justify-between items-center pt-2"> 
+                            <button hx-boost="true" type="button"class="h-12 w-24 text-blue-500 text-xs font-medium"><a href="{% url 'users:profile' profile.user %}">Return to Profile</a></button> 
+                            <button hx-boost="true" type="submit" class="h-12 w-48 rounded font-medium text-xs bg-blue-500 text-white">Save Changes</a></button> 
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
