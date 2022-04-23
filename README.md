@@ -1,6 +1,6 @@
 # Fideh-Jobs
 
- Collaboration joint and job board modeled after Upwork.
+ Job board modeled after Upwork.
  
  ### Screenshot of a user dashboard
  ![dashboard](https://user-images.githubusercontent.com/68183305/153730610-bb992833-0fa9-4683-abb5-37d7f2404aef.png)
